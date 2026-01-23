@@ -16,10 +16,8 @@ export default function Login() {
     try {
       const res = await api.post("/auth/login", form);
 
-      // save token
       localStorage.setItem("token", res.data.token);
 
-      // 🔥 REDIRECT
       navigate("/dashboard");
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
@@ -27,27 +25,61 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={submit}>
-      <h2>Login</h2>
+    <div className="container">
+      <form onSubmit={submit} style={styles.card}>
+        <h2 style={styles.heading}>Notes Application – Login</h2>
 
-      <input
-        placeholder="Email"
-        onChange={(e) =>
-          setForm({ ...form, email: e.target.value })
-        }
-        required
-      />
+        <input
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) =>
+            setForm({ ...form, email: e.target.value })
+          }
+          required
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) =>
-          setForm({ ...form, password: e.target.value })
-        }
-        required
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) =>
+            setForm({ ...form, password: e.target.value })
+          }
+          required
+        />
 
-      <button>Login</button>
-    </form>
+        <button style={styles.btn}>Login</button>
+
+        <p style={styles.text}>
+          New user? click on <a href="/register">Register</a>
+        </p>
+      </form>
+    </div>
   );
 }
+
+const styles = {
+  card: {
+    background: "white",
+    padding: "25px",
+    borderRadius: "12px",
+    maxWidth: "420px",
+    margin: "40px auto",
+    boxShadow: "0 6px 10px rgba(0,0,0,0.15)"
+  },
+
+  heading: {
+    marginBottom: "15px",
+    fontSize: "20px"
+  },
+
+  text: {
+    marginTop: "10px",
+    fontSize: "14px"
+  },
+
+  btn: {
+    marginTop: "10px",
+    width: "100%"
+  }
+};

@@ -17,10 +17,8 @@ export default function Register() {
     try {
       const res = await api.post("/auth/register", form);
 
-      // save token
       localStorage.setItem("token", res.data.token);
 
-      // 🔥 REDIRECT
       navigate("/dashboard");
     } catch (err) {
       alert(err.response?.data?.message || "Register failed");
@@ -28,35 +26,72 @@ export default function Register() {
   };
 
   return (
-    <form onSubmit={submit}>
-      <h2>Register</h2>
+    <div className="container">
+      <form onSubmit={submit} style={styles.card}>
+        <h2 style={styles.heading}>Notes Application – Registration</h2>
 
-      <input
-        placeholder="Username"
-        onChange={(e) =>
-          setForm({ ...form, username: e.target.value })
-        }
-        required
-      />
+        <input
+          placeholder="Username"
+          value={form.username}
+          onChange={(e) =>
+            setForm({ ...form, username: e.target.value })
+          }
+          required
+        />
 
-      <input
-        placeholder="Email"
-        onChange={(e) =>
-          setForm({ ...form, email: e.target.value })
-        }
-        required
-      />
+        <input
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) =>
+            setForm({ ...form, email: e.target.value })
+          }
+          required
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) =>
-          setForm({ ...form, password: e.target.value })
-        }
-        required
-      />
+        <input
+          type="password"
 
-      <button>Register</button>
-    </form>
+          
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) =>
+            setForm({ ...form, password: e.target.value })
+          }
+          required
+        />
+
+        <button style={styles.btn}>Register</button>
+
+        <p style={styles.text}>
+          Already have account? <a href="/login">Login</a>
+        </p>
+      </form>
+    </div>
   );
 }
+
+const styles = {
+  card: {
+    background: "white",
+    padding: "25px",
+    borderRadius: "12px",
+    maxWidth: "420px",
+    margin: "40px auto",
+    boxShadow: "0 6px 10px rgba(0,0,0,0.15)"
+  },
+
+  heading: {
+    marginBottom: "15px",
+    fontSize: "20px"
+  },
+
+  btn: {
+    marginTop: "10px",
+    width: "100%"
+  },
+
+  text: {
+    marginTop: "10px",
+    fontSize: "14px"
+  }
+};
